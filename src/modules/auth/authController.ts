@@ -4,7 +4,7 @@ import UserModel from '../user/userModel';
 async function authLogin(req: any, res: any) {
     const { email, password } = req.body;
     try {
-        const authCheck = await UserModel.findOne({ email });
+        const authCheck: any = await UserModel.findOne({ email });
         if (authCheck) {
             const passwordMatch = await bcrypt.compare(password, authCheck.password);
             if (passwordMatch) {
