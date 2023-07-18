@@ -20,7 +20,7 @@ async function addUser(req: any, res: any) {
 async function getUser(req: any, res: any) {
     let getUser = await UserModel.find();
     if (getUser) {
-        return res.status(200).json({ message: "Get Successfully", data: getUser });
+        return res.status(200).json({ message: "Get Successfully", getUser });
     } else {
         return res.status(400).json({ message: "false" });
     }

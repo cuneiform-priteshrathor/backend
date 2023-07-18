@@ -1,6 +1,9 @@
 import { match } from 'assert';
 import bcrypt from 'bcryptjs';
 import UserModel from '../user/userModel';
+import jwt from 'jsonwebtoken';
+
+
 async function authLogin(req: any, res: any) {
     const { email, password } = req.body;
     try {
@@ -8,7 +11,8 @@ async function authLogin(req: any, res: any) {
         if (authCheck) {
             const passwordMatch = await bcrypt.compare(password, authCheck.password);
             if (passwordMatch) {
-                return res.json({ message: 'Authentication successful' });
+                const accessToken = jwt.sign({ email: authCheck.email }, 'your-secret-key');
+                return res.json({ message: 'Authentication successful', accessToken });
             } else {
                 return res.json({ message: 'Incorrect password' });
             }
@@ -20,7 +24,6 @@ async function authLogin(req: any, res: any) {
         return res.status(500).json({ message: 'Internal Server Error' });
     }
 }
-
 async function authRegister(req: any, res: any) {
     let data = req.body;
 
